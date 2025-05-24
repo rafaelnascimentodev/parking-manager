@@ -96,7 +96,9 @@ http://localhost:8081/swagger-ui.html
 As migrations do banco de dados são executadas automaticamente ao iniciar a aplicação. O script principal está localizado em:
 
 ```
-src/main/resources/db/migration/V1__initial_schema.sql
+src/main/resources/db/migration/V1__criar_tabelas_setor_vaga_veiculo_sessaoestacionamento_faturamento.sql
+src/main/resources/db/migration/V2__adiciona_campo_preco_base_na_tabela_sessaoestacionamento.sql
+
 ```
 
 ---
