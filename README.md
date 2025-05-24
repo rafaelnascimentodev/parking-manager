@@ -1,3 +1,4 @@
+
 # 🚗 Estapar Parking Management System
 
 Este projeto foi desenvolvido como parte do **teste técnico para Desenvolvedor Backend Kotlin** da **Estapar**.
@@ -27,117 +28,118 @@ O sistema é responsável por gerenciar a operação de estacionamentos, desde o
 - **Framework**: Spring Boot `3.5.0`
 - **Build Tool**: Gradle Kotlin DSL
 - **JDK**: Java 21
-- **Banco de Dados**: MySQL
-- **Migrações**: Flyway
+- **Banco de Dados**: MySQL 8
 - **Testes**: JUnit 5 + Mockito
 - **Documentação**: SpringDoc OpenAPI
 - **Containerização**: Docker + Docker Compose
+- **Migrations**: Flyway
 
 ---
 
 ## ▶️ Como executar o projeto localmente
 
-### ✅ Pré-requisitos
-
-- [Java 21+](https://adoptium.net/)
-- [Docker e Docker Compose](https://docs.docker.com/get-docker/)
-- Git
-- (Opcional) [HTTPie](https://httpie.io/) ou Postman para testar os endpoints
-
-### 🚀 Passo a passo
-
-1. **Clone o repositório:**
+### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/rafaelnascimentodev/parking-manager.git
 cd parking-manager
 ```
 
-2. **Suba o banco de dados (MySQL) com Docker:**
+### 2. Suba os serviços necessários (MySQL + Simulador)
 
 ```bash
 docker-compose up -d
 ```
 
-> Isso iniciará um container com MySQL na porta `3306`, com banco `parkingdb`, usuário `root`, senha `root`.
+Isso irá iniciar:
+- Um container MySQL na porta `3306`
+- O simulador de garagem na porta `8080`
 
-3. **Execute a aplicação localmente:**
+### 3. Configure as variáveis de ambiente
 
-```bash
-./gradlew bootRun
-```
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
 
-A aplicação estará disponível em:  
-📍 `http://localhost:8080`
-
-4. **A documentação da API estará disponível em:**
-
-📘 `http://localhost:8080/swagger-ui.html`
-
----
-
-## 🧪 Testes
-
-Para rodar os testes unitários e de integração:
-
-```bash
-./gradlew test
-```
-
----
-
-## 🧰 Variáveis de Ambiente (application.properties ou .env)
-
-```properties
+```env
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=parkingdb
 DB_USER=root
 DB_PASSWORD=root
+```
 
-spring.datasource.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-spring.datasource.username=${DB_USER}
-spring.datasource.password=${DB_PASSWORD}
-spring.jpa.hibernate.ddl-auto=validate
-spring.jpa.show-sql=true
-spring.flyway.enabled=true
+Ou exporte essas variáveis diretamente no terminal, se preferir.
+
+### 4. Rode a aplicação
+
+Utilizando Gradle:
+
+```bash
+./gradlew bootRun
+```
+
+Ou execute a classe `ParkingManangerApplication.kt` pela sua IDE.
+
+### 5. Acesse a documentação da API
+
+Após a aplicação subir, acesse:
+
+```
+http://localhost:8081/swagger-ui.html
+```
+
+> Verifique se a porta da aplicação está configurada como `8081` no `application.yml` para evitar conflito com o simulador.
+
+---
+
+## 🐘 Flyway Migrations
+
+As migrations do banco de dados são executadas automaticamente ao iniciar a aplicação. O script principal está localizado em:
+
+```
+src/main/resources/db/migration/V1__initial_schema.sql
 ```
 
 ---
 
-## 🐘 Docker Compose (exemplo)
+## 🐳 Docker Compose
 
-Crie um arquivo `docker-compose.yml` na raiz do projeto com:
+O arquivo `docker-compose.yaml` configura dois serviços essenciais:
 
 ```yaml
 version: '3.8'
 
 services:
-  db:
-    image: mysql:8
-    container_name: parking-mysql
-    restart: always
+  mysql:
+    image: mysql:8.0
+    container_name: estapar-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: parkingdb
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+  garage-simulador:
+    image: cfontes0estapar/garage-sim:1.0.0
+    container_name: estapar-garage-simulator
+    ports:
+      - "8080:3000"
+    restart: unless-stopped
 
 volumes:
-  mysql_data:
+  mysql-data:
 ```
 
 ---
 
-## ❗ Problemas comuns
+## ✅ Status
 
-- ❌ **Erro de schema ou coluna ausente**: verifique se o banco está limpo (`docker-compose down -v` para resetar volumes) e se o Flyway está aplicando corretamente o `V1__create_tables.sql`.
-- ❌ **Porta em uso**: certifique-se de que as portas `3306` e `8080` não estão em uso por outros serviços.
+✔️ Pronto para rodar localmente e consumir eventos do simulador.
 
 ---
 
 ## 📬 Contato
 
-Caso queira entrar em contato para dúvidas ou sugestões, envie um e-mail para: [seuemail@exemplo.com](mailto:seuemail@exemplo.com)
+Em caso de dúvidas, entre em contato via [GitHub Issues](https://github.com/rafaelnascimentodev/parking-manager/issues).
