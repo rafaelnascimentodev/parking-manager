@@ -98,7 +98,6 @@ As migrations do banco de dados são executadas automaticamente ao iniciar a apl
 ```
 src/main/resources/db/migration/V1__criar_tabelas_setor_vaga_veiculo_sessaoestacionamento_faturamento.sql
 src/main/resources/db/migration/V2__adiciona_campo_preco_base_na_tabela_sessaoestacionamento.sql
-
 ```
 
 ---
