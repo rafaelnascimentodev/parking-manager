@@ -68,7 +68,7 @@ DB_USER=root
 DB_PASSWORD=root
 ```
 
-Ou exporte essas variáveis diretamente no terminal, se preferir.
+Ou exporte essas variáveis diretamente no terminal ou na sua IDE, se preferir.
 
 ### 4. Rode a aplicação
 
