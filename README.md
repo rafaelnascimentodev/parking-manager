@@ -84,10 +84,10 @@ Ou execute a classe `ParkingManangerApplication.kt` pela sua IDE.
 Após a aplicação subir, acesse:
 
 ```
-http://localhost:8081/swagger-ui.html
+http://localhost:3003/swagger-ui.html
 ```
 
-> Verifique se a porta da aplicação está configurada como `8081` no `application.yml` para evitar conflito com o simulador.
+> Verifique se a porta da aplicação está configurada como `3003` no `application.yml` para evitar conflito com o simulador.
 
 ---
 
