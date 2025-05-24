@@ -6,24 +6,25 @@ import java.time.LocalTime
 @Entity
 @Table(name = "setores_tb")
 data class Setor(
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    val nome: String,
+    @Column(nullable = false, unique = true)
+    val nome: String,  // corresponde ao "sector" do JSON
 
-    val precoBase: Double,
+    @Column(nullable = false)
+    val precoBase: Double,  // base_price no JSON
 
-    val capacidadeMaxima: Int,
+    @Column(nullable = false)
+    val capacidadeMaxima: Int,  // max_capacity no JSON
 
-    val horarioAbertura: LocalTime,
+    @Column(nullable = false)
+    val horarioAbertura: LocalTime,  // open_hour no JSON
 
-    val horarioFechamento: LocalTime,
+    @Column(nullable = false)
+    val horarioFechamento: LocalTime,  // close_hour no JSON
 
-    val limiteDuracaoMinutos: Int,
-
-    var ocupacaoAtual: Int = 0,
-
-    var estaFechado: Boolean = false
+    @Column(nullable = false)
+    val limiteDuracaoMinutos: Int  // duration_limit_minutes no JSON
 )
