@@ -1,4 +1,4 @@
-package br.com.estapar.parking_menenger
+package br.com.estapar.parking_mananger
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

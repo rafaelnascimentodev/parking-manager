@@ -13,5 +13,12 @@ services:
       - mysql-data:/var/lib/mysql
     restart: unless-stopped
 
+  garage-simulador:
+    image: cfontes0estapar/garage-sim:1.0.0
+    container_name: estapar-garage-simulator
+    ports:
+      - "8080:3000"
+    restart: unless-stopped
+
 volumes:
   mysql-data:

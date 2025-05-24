@@ -1,4 +1,4 @@
-package br.com.estapar.parking_menenger.model
+package br.com.estapar.parking_mananger.model
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
