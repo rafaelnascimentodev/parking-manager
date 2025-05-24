@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: estapar-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: parkingdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+  garage-simulador:
+    image: cfontes0estapar/garage-sim:1.0.0
+    container_name: estapar-garage-simulator
+    ports:
+      - "8080:3000"
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
