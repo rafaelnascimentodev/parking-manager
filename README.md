@@ -42,7 +42,6 @@ O sistema é responsável por gerenciar a operação de estacionamentos, desde o
 
 ```bash
 git clone https://github.com/rafaelnascimentodev/parking-manager.git
-
 cd parking-manager
 ```
 
