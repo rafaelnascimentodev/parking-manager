@@ -1,3 +1,4 @@
+
 # 🚗 Estapar Parking Management System
 
 Este projeto foi desenvolvido como parte do **teste técnico para Desenvolvedor Backend Kotlin** da **Estapar**.
@@ -27,16 +28,118 @@ O sistema é responsável por gerenciar a operação de estacionamentos, desde o
 - **Framework**: Spring Boot `3.5.0`
 - **Build Tool**: Gradle Kotlin DSL
 - **JDK**: Java 21
-- **Banco de Dados**: PostgreSQL (ou MySQL)
+- **Banco de Dados**: MySQL 8
 - **Testes**: JUnit 5 + Mockito
 - **Documentação**: SpringDoc OpenAPI
-- **Containerização**: Docker
+- **Containerização**: Docker + Docker Compose
+- **Migrations**: Flyway
 
 ---
 
 ## ▶️ Como executar o projeto localmente
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/rafaelnascimentodev/parking-manager.git
+cd parking-manager
+```
+
+### 2. Suba os serviços necessários (MySQL + Simulador)
+
+```bash
+docker-compose up -d
+```
+
+Isso irá iniciar:
+- Um container MySQL na porta `3306`
+- O simulador de garagem na porta `8080`
+
+### 3. Configure as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=parkingdb
+DB_USER=root
+DB_PASSWORD=root
+```
+
+Ou exporte essas variáveis diretamente no terminal ou na sua IDE, se preferir.
+
+### 4. Rode a aplicação
+
+Utilizando Gradle:
+
+```bash
+./gradlew bootRun
+```
+
+Ou execute a classe `ParkingManangerApplication.kt` pela sua IDE.
+
+### 5. Acesse a documentação da API
+
+Após a aplicação subir, acesse:
+
+```
+http://localhost:3003/swagger-ui.html
+```
+
+> Verifique se a porta da aplicação está configurada como `3003` no `application.yml` para evitar conflito com o simulador.
+
+---
+
+## 🐘 Flyway Migrations
+
+As migrations do banco de dados são executadas automaticamente ao iniciar a aplicação. O script principal está localizado em:
+
+```
+src/main/resources/db/migration/V1__criar_tabelas_setor_vaga_veiculo_sessaoestacionamento_faturamento.sql
+```
+
+---
+
+## 🐳 Docker Compose
+
+O arquivo `docker-compose.yaml` configura dois serviços essenciais:
+
+```yaml
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: estapar-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: parkingdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+
+  garage-simulador:
+    image: cfontes0estapar/garage-sim:1.0.0
+    container_name: estapar-garage-simulator
+    ports:
+      - "8080:3000"
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+```
+
+---
+
+## ✅ Status
+
+✔️ Pronto para rodar localmente e consumir eventos do simulador.
+
+---
+
+## 📬 Contato
+
+Em caso de dúvidas, entre em contato via [GitHub Issues](https://github.com/rafaelnascimentodev/parking-manager/issues).
