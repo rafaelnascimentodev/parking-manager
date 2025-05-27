@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "14a6c46f-1f5e-4f57-a0ad-e640abd9712e",
+		"name": "Parking Manager API Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24344995"
+	},
+	"item": [
+		{
+			"name": "Entrada de Veículo",
+			"item": [
+				{
+					"name": "Registrar Entrada",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"licensePlate\": \"ABC1234\",\n  \"latitude\": -23.55052,\n  \"longitude\": -46.633308\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/entrada-veiculo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"entrada-veiculo"
+							]
+						},
+						"description": "Registra a entrada de um veículo."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consulta de Placa",
+			"item": [
+				{
+					"name": "Consultar Status por Placa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"license_plate\": \"ABC1234\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/plate-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plate-status"
+							]
+						},
+						"description": "Consulta o status de um veículo pela placa."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consulta de Faturamento",
+			"item": [
+				{
+					"name": "Consultar Faturamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/revenue?date=2025-05-27&sector=A",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"revenue"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2025-05-27"
+								},
+								{
+									"key": "sector",
+									"value": "A"
+								}
+							]
+						},
+						"description": "Consulta o faturamento por data e setor."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Saída de Veículo",
+			"item": [
+				{
+					"name": "Registrar Saída",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"licensePlate\": \"ABC1234\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/saida-veiculo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"saida-veiculo"
+							]
+						},
+						"description": "Registra a saída de um veículo."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consulta de Vaga",
+			"item": [
+				{
+					"name": "Consultar Status da Vaga",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"latitude\": -23.55052,\n  \"longitude\": -46.633308\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/spot-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"spot-status"
+							]
+						},
+						"description": "Consulta o status de uma vaga por latitude e longitude."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Webhook",
+			"item": [
+				{
+					"name": "Receber Evento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"license_plate\": \"DEF5678\",\n  \"entry_time\": \"2025-05-27T14:00:00.000Z\",\n  \"event_type\": \"ENTRY\",\n  \"lat\": -23.5510,\n  \"lng\": -46.6340\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/webhook",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"webhook"
+							]
+						},
+						"description": "Recebe eventos externos (entrada/saída)."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
