@@ -7,5 +7,6 @@ interface VagaRepository : JpaRepository<Vaga, Long> {
 
     fun countBySetorId(setorId: Long): Long
     fun countBySetorIdAndOcupadaTrue(setorId: Long): Long
+    fun findByLatitudeAndLongitude(latitude: Double, longitude: Double): Vaga?
 
 }

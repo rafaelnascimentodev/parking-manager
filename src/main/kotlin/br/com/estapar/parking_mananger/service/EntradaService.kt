@@ -39,7 +39,6 @@ class EntradaService(
                 throw SetorNotFoundEsception("Setor não encontrado")
             }
 
-        // Verifica lotação do setor
         val totalVagas = vagaRepository.countBySetorId(setor.id!!)
         val vagasOcupadas = vagaRepository.countBySetorIdAndOcupadaTrue(setor.id)
         val lotacao = vagasOcupadas.toDouble() / totalVagas.toDouble()
@@ -62,23 +61,20 @@ class EntradaService(
                 throw VagaNotFoundEsception("Vaga não encontrada")
             }
 
-        // Marca a vaga como ocupada
         vaga.ocupada = true
         vagaRepository.save(vaga)
         log.debug("Vaga ${entradaRequest.vagaId} marcada como ocupada")
 
-        // Calcula o preço base ajustado conforme regra de preço dinâmico
         val precoAjustado = calcularPrecoDinamico(setor.precoBase, lotacao)
         log.info("Preço base: R$${setor.precoBase} | Preço ajustado: R$${"%.2f".format(precoAjustado)}")
 
-        // Cria sessão salvando preçoBase ajustado para usar na cobrança posterior
         val sessao = SessaoEstacionamento(
             veiculo = veiculo,
             vaga = vaga,
             setor = setor,
             horarioEntrada = LocalDateTime.now(),
             estaAtiva = true,
-            precoBase = precoAjustado // novo campo na entidade SessaoEstacionamento
+            precoBase = precoAjustado
         )
         sessaoRepository.save(sessao)
         log.info("Sessão de estacionamento registrada para placa=${entradaRequest.placa} na vaga=${entradaRequest.vagaId}")
@@ -86,10 +82,10 @@ class EntradaService(
 
     private fun calcularPrecoDinamico(precoBase: Double, lotacao: Double): Double {
         return when {
-            lotacao < 0.25 -> precoBase * 0.9       // desconto 10%
-            lotacao <= 0.5 -> precoBase             // 0% desconto
-            lotacao <= 0.75 -> precoBase * 1.1      // aumenta 10%
-            else -> precoBase * 1.25                 // aumenta 25%
+            lotacao < 0.25 -> precoBase * 0.9
+            lotacao <= 0.5 -> precoBase
+            lotacao <= 0.75 -> precoBase * 1.1
+            else -> precoBase * 1.25
         }
     }
 }

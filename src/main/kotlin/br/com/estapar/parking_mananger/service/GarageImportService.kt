@@ -36,7 +36,6 @@ class GarageImportService(
 
             log.info("Setores encontrados: ${garagem.garage.size}")
 
-            // Salva setores e guarda em mapa para associar depois
             val setoresSalvos = mutableMapOf<String, Setor>()
             garagem.garage.forEach { setorDto ->
                 val setor = Setor(
@@ -52,7 +51,6 @@ class GarageImportService(
                 log.info("Setor '${setorSalvo.nome}' importado")
             }
 
-            // Salva as vagas associadas ao setor correto
             garagem.spots.forEach { vagaDto ->
                 val setor = setoresSalvos[vagaDto.sector]
                     ?: throw RuntimeException("Setor '${vagaDto.sector}' da vaga ${vagaDto.id} não encontrado")
